@@ -19,6 +19,7 @@ session_button_path = NodePath("CenterContainer/PanelContainer/MarginContainer/V
 socket_button_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSocket")
 create_client_path = "res://scenes/ui_modules/create_client.tscn"
 create_session_path = "res://scenes/ui_modules/create_session.tscn"
+match_manager_path = "res://scenes/ui_modules/match_manager.tscn"
 main_menu_path = "res://scenes/main_menu.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -136,7 +137,11 @@ text = "Create Session"
 layout_mode = 2
 text = "Create Socket"
 
-[node name="ReturnToMain" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
+[node name="GoToMatchManager" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Match Manager"
+
+[node name="ReturnToMain2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Main Menu"
 
@@ -151,4 +156,5 @@ autowrap_mode = 2
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ConfigureClient" to="." method="_on_configure_client_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSession" to="." method="_on_go_to_session_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSocket" to="." method="_on_create_socket_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ReturnToMain" to="." method="_on_return_to_main_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/GoToMatchManager" to="." method="_on_go_to_match_manager_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ReturnToMain2" to="." method="_on_return_to_main_pressed"]
