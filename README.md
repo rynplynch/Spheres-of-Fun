@@ -57,9 +57,9 @@ Using this same method you can run other software as well.
     # for multiplayer to work start the nakama service
     nix run .#nakama
 
-#### Without Nix CLI
+### Without Nix CLI
 
-##### Running the Software
+#### Running the Software
 
 At this stage there are no downloadable packages of the game available. There is a docker image that will allow you to play the game locally via a dotnet server.
 
@@ -69,7 +69,7 @@ At this stage there are no downloadable packages of the game available. There is
     # create docker container
     docker run -p 8080:5000 rynplynch/planespheres-website:1.0.0
 
-##### Development
+#### Development
 
 You will have to manage the dependencies that PlaneSpheres relies on on your own. These are documented inside the *flake.nix* file at the root of the project.
 
