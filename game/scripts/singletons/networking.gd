@@ -5,7 +5,14 @@ var _session : NakamaSession;
 var _socket : NakamaSocket;
 var _socket_connected : bool = false;
 
-# Creation functions
+# used to read state of match
+enum MatchState {
+	DISCONNECTED,
+	JOINING,
+	CONNECTED,
+	SOCKET_CLOSED,
+}
+
 # Attempt client creation
 func create_client(address : String, port : int, schema : String, logging : Control) -> NakamaClient:
 	# send user feedback
@@ -123,6 +130,28 @@ func _on_socket_matchmaker_matched() -> void:
 func _on_socket_match_state() -> void:
 	pass
 
+
+# Match functions
+func set_multiplayer_bridge(socket : NakamaSocket, logger : Control) -> bool:
+	logger.text = "Attempting to set multiplayer bridge...\n"
+	
+	# make sure the socket is good
+	if !is_socket_connected():
+		logger.text = logger.text + "You must create a socket connection.\n"
+		return false
+
+	# request bridge object from nakama
+	var bridge : NakamaMultiplayerBridge = await NakamaMultiplayerBridge.new(socket)
+	
+	# upon first creation the match state should be DISCONNECTED
+	if !bridge || bridge._match_state != MatchState.DISCONNECTED:
+		logger.text = logger.text + "Failed to set bridge."
+		return false
+	
+	# access the bridges multiplayer_peer and pass it to godot
+	logger.text = logger.text + "Succesfuly set bridge!"
+	multiplayer.multiplayer_peer = bridge.multiplayer_peer
+	return true
 # Helper functions
 # Returns true of the client can reach a Nakama server
 func is_client_valid(client : NakamaClient) -> bool:
