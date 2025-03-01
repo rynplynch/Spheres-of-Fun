@@ -17,18 +17,41 @@ extends Control
 @onready var match_name_input : LineEdit = get_node(match_name_path)
 @onready var matches : Tree = get_node(matches_ui_path)
 
+
+func _ready() -> void:
+	update_socket_status()
+
 #TODO: write UI update logic
 func update_matches() -> void:
 	# get existing matches from Nakama, returns as a list?
 	pass
 	
-	# Update UI with the list..
 	
-	# return
+	
+
+# Check the status of the Network.socket and update UI elements
+func update_socket_status():	
+	# if the socket is connected
+	if Networking._socket_connected:
+		# give the player further feedback
+		logging.text = "Socket available"	
+	else:
+		logging.text = "You must create a new socket connection"	
+
+
+func _on_create_bridge_pressed() -> void:
+	# attempt to create a new socket
+	var success = await Networking.create_socket(Networking._client, Networking._session, logging)
+	
+	if success:
+		# also set the multiplayer bridge
+		Networking.set_multiplayer_bridge(Networking._socket, logging)
 
 #TODO: tell nakama to create a match
 func _on_create_match_pressed() -> void:
 	# Call match_manager class
+
+	#NakamaMultiplayerBridge
 	pass # Replace with function body.
 
 func _on_join_match_pressed() -> void:

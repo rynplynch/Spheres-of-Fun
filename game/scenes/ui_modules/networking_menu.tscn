@@ -13,10 +13,8 @@ script = ExtResource("1_nclby")
 logger_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Logger")
 client_status_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer3/ClientStatus")
 session_status_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/SessionStatus")
-socket_status_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer2/SocketStatus")
 client_button_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ConfigureClient")
 session_button_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSession")
-socket_button_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSocket")
 create_client_path = "res://scenes/ui_modules/create_client.tscn"
 create_session_path = "res://scenes/ui_modules/create_session.tscn"
 match_manager_path = "res://scenes/ui_modules/match_manager.tscn"
@@ -106,25 +104,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="SocketStatus" type="CheckBox" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-button_mask = 0
-text = "Available Socket?"
-alignment = 1
-
-[node name="Control2" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
 [node name="ConfigureClient" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Configure Client"
@@ -132,10 +111,6 @@ text = "Configure Client"
 [node name="CreateSession" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Create Session"
-
-[node name="CreateSocket" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Create Socket"
 
 [node name="GoToMatchManager" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -155,6 +130,5 @@ autowrap_mode = 2
 
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ConfigureClient" to="." method="_on_configure_client_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSession" to="." method="_on_go_to_session_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/CreateSocket" to="." method="_on_create_socket_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/GoToMatchManager" to="." method="_on_go_to_match_manager_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/ReturnToMain2" to="." method="_on_return_to_main_pressed"]

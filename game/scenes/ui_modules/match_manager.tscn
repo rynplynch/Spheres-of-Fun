@@ -10,6 +10,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0ulko")
+networking_menu_path = "res://scenes/ui_modules/networking_menu.tscn"
+logger_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Logger")
+match_name_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MatchName")
+matches_ui_path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Matches")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -51,6 +55,10 @@ text = "test"
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="CreateBridge" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Connect to Server"
+
 [node name="CreateMatch" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Create Match"
@@ -63,6 +71,9 @@ text = "Join Match"
 layout_mode = 2
 text = "Network Menu"
 
+[node name="Matches" type="Tree" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="Logger" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
@@ -71,9 +82,7 @@ text = "waiting on player input"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Matches" type="Tree" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CreateBridge" to="." method="_on_create_bridge_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CreateMatch" to="." method="_on_create_match_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/JoinMatch" to="." method="_on_join_match_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GoToNetworkMenu" to="." method="_on_go_to_network_menu_pressed"]
