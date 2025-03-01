@@ -140,3 +140,6 @@ func is_client_valid(client : NakamaClient) -> bool:
 func is_session_valid(session : NakamaSession) -> bool:
 	# return true if session is not null AND is valid AND is not expired
 	return session && session.is_valid() && !session.is_expired()
+
+func is_socket_connected() -> bool:
+	return _socket_connected
