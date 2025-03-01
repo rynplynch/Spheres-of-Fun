@@ -27,12 +27,10 @@ func update_matches() -> void:
 	pass
 	
 	
-	
-
 # Check the status of the Network.socket and update UI elements
 func update_socket_status():	
 	# if the socket is connected
-	if Networking._socket_connected:
+	if Networking.is_socket_connected():
 		# give the player further feedback
 		logging.text = "Socket available"	
 	else:
@@ -50,9 +48,8 @@ func _on_create_bridge_pressed() -> void:
 #TODO: tell nakama to create a match
 func _on_create_match_pressed() -> void:
 	# Call match_manager class
-
-	#NakamaMultiplayerBridge
-	pass # Replace with function body.
+	pass
+	#Networking.create_match(logging)
 
 func _on_join_match_pressed() -> void:
 	pass # Replace with function body.

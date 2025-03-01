@@ -1,9 +1,9 @@
 extends Node
 
-var _client : NakamaClient;
-var _session : NakamaSession;
-var _socket : NakamaSocket;
-var _socket_connected : bool = false;
+var _client : NakamaClient
+var _session : NakamaSession
+var _socket : NakamaSocket
+var _bridge : NakamaMultiplayerBridge
 
 # used to read state of match
 enum MatchState {
@@ -91,31 +91,31 @@ func create_socket(client : NakamaClient, session : NakamaSession, logging : Con
 	socket.received_error.connect(self._on_socket_error)
 	socket.received_match_presence.connect(self._on_socket_match_presence)
 	socket.received_match_state.connect(self._on_socket_match_state)
-	socket.received_matchmaker_matched.connect(self._on_socket_matchmaker_matched)
+	socket.received_matchmaker_matched.connect(self._on_socket_matchmaker_matched)	
 	
 	logging.text = logging.text + "Attempting socket connection...\n"
 	# attempt to create a socket connection
 	await socket.connect_async(session)
 	
-	if _socket_connected:
+	if socket.is_connected_to_host():
 		logging.text = logging.text + "Socket connection succesful!\n"
 		
 		# return socket reference to caller
 		_socket = socket
 		return true
 	
-	logging.test = logging.text + "Socket connection failed.\n"
+	logging.text = logging.text + "Socket connection failed.\n"
 	return false
 
 # socket functions, respond to socket signals when they are emitted
 func _on_socket_connected():
-	print("Socket connected\n")
-	_socket_connected = true
+	print("Socket Connected\n")
 	
 func _on_socket_closed():
 	print("Socket closed\n")
+	# make sure godot knows the socket is dead
+	multiplayer.multiplayer_peer = null
 	_socket.free()
-	_socket_connected = false
 	
 func _on_socket_error(err):
 	print("Socket recieved error: " + str(err) + '\n')
@@ -142,16 +142,37 @@ func set_multiplayer_bridge(socket : NakamaSocket, logger : Control) -> bool:
 
 	# request bridge object from nakama
 	var bridge : NakamaMultiplayerBridge = await NakamaMultiplayerBridge.new(socket)
-	
+
 	# upon first creation the match state should be DISCONNECTED
 	if !bridge || bridge._match_state != MatchState.DISCONNECTED:
 		logger.text = logger.text + "Failed to set bridge."
 		return false
+		
+	# register match functions
+	bridge.match_join_error.connect(_on_match_join_error)
+	bridge.match_joined.connect(_on_match_joined)
 	
 	# access the bridges multiplayer_peer and pass it to godot
 	logger.text = logger.text + "Succesfuly set bridge!"
 	multiplayer.multiplayer_peer = bridge.multiplayer_peer
 	return true
+
+# bridge functions, respond to match signals when they are emitted
+func _on_match_joined() -> void:
+	print("Player with id:" + str(multiplayer.get_unique_id()) + " joined.")
+
+func _on_match_join_error(err) -> void:
+	print("Failed to join match with error: " + str(err))
+
+# Create match
+func create_match(match_name : String, logger : Control) -> bool:
+	logger.text = "Attempting match creation.\n"
+	if is_socket_connected():
+		_socket.create_match_async(match_name)
+		return true
+	
+	return false
+	
 # Helper functions
 # Returns true of the client can reach a Nakama server
 func is_client_valid(client : NakamaClient) -> bool:
@@ -171,4 +192,4 @@ func is_session_valid(session : NakamaSession) -> bool:
 	return session && session.is_valid() && !session.is_expired()
 
 func is_socket_connected() -> bool:
-	return _socket_connected
+	return  _socket && _socket.is_connected_to_host()
