@@ -62,18 +62,18 @@ func request_session_token(client : NakamaClient, email : String, password : Str
 	return session
 
 # create a new socket connection, and register functions to respond to signals
-func create_socket(client : NakamaClient, session : NakamaSession, logging : Control) -> NakamaSocket:
+func create_socket(client : NakamaClient, session : NakamaSession, logging : Control) -> bool:
 	logging.text = "Attempting socket creation\n"
 	
 	# make sure the user has a working client
 	if !await Networking.is_client_valid(client):
 		logging.text = logging.text + "Your client is not valid.\n" + "Create a new client.\n"
-		return null
+		return false
 	
 	# make sure user has valid session
 	if !is_session_valid(session):
 		logging.text = logging.text + "Your session is not valid.\n" + "Create a new session.\n"
-		return null
+		return false
 	
 	# create a socket
 	var socket = Nakama.create_socket_from(client)
@@ -91,10 +91,11 @@ func create_socket(client : NakamaClient, session : NakamaSession, logging : Con
 		logging.text = logging.text + "Socket connection succesful!\n"
 		
 		# return socket reference to caller
-		return socket
+		_socket = socket
+		return true
 	
 	logging.test = logging.text + "Socket connection failed.\n"
-	return null
+	return false
 
 # socket functions, respond to socket signals when they are emitted
 func _on_socket_connected():
