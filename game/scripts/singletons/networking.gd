@@ -82,6 +82,9 @@ func create_socket(client : NakamaClient, session : NakamaSession, logging : Con
 	socket.connected.connect(self._on_socket_connected)
 	socket.closed.connect(self._on_socket_closed)
 	socket.received_error.connect(self._on_socket_error)
+	socket.received_match_presence.connect(self._on_socket_match_presence)
+	socket.received_match_state.connect(self._on_socket_match_state)
+	socket.received_matchmaker_matched.connect(self._on_socket_matchmaker_matched)
 	
 	logging.text = logging.text + "Attempting socket connection...\n"
 	# attempt to create a socket connection
@@ -111,6 +114,15 @@ func _on_socket_error(err):
 	print("Socket recieved error: " + str(err) + '\n')
 	_on_socket_closed()
 	
+func _on_socket_match_presence() -> void:
+	pass
+
+func _on_socket_matchmaker_matched() -> void:
+	pass
+	
+func _on_socket_match_state() -> void:
+	pass
+
 # Helper functions
 # Returns true of the client can reach a Nakama server
 func is_client_valid(client : NakamaClient) -> bool:
